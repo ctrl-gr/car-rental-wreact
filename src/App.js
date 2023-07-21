@@ -1,23 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import Button from '../src/components/button/Button'
+import {useState} from "react";
+
+
 
 function App() {
+    const [count, setCount] = useState(0)
+    const [light, setLight] = useState(true)
+
+    function saySomething() {
+        console.log('its working')
+    }
+
+    function addCount() {
+        setCount(count + 1)
+    }
+
+    function enlightenMe() {
+        setLight(!light)
+    }
+
+    switch(Button.type) {
+        case 'speaker':
+            saySomething();
+            break;
+        case 'counter':
+            addCount();
+            break;
+        case 'lighter':
+            enlightenMe();
+            break;
+        default:
+            console.log('default case')
+    }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="buttons">
+      <Button handleClick={saySomething} type={'speaker'} text={'let me talk'}  />
+        <Button handleClick={addCount} type={'counter'} text={'add count'}  />
+        <Button handleClick={enlightenMe} type={'lighter'} text={'light me up'} className={ light ? 'light-up' : 'light-down' } />
+        {count}
     </div>
   );
 }
