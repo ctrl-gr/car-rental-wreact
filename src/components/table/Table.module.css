@@ -1,0 +1,8 @@
+.tableStyle {
+    width: 75%;
+    border: 5px solid black;
+}
+
+.tr {
+    border-bottom: 1px solid black !important;
+}
