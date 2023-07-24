@@ -2,20 +2,28 @@ import React from 'react'
 import styles from './Table.module.css'
 import Button from "../button/Button";
 
-const Table = ({headers, data}) => {
+const Table = ({headers, data, actions}) => {
 
-    function action(type, valueToEmit) {
+    function actionEmitter(type, valueToEmit) {
         switch (type) {
             case 'modifica':
                 return console.log('modificato', valueToEmit)
             case 'elimina':
                 return console.log('eliminato', valueToEmit)
+            case 'nuovo':
+                return console.log('nuovo elemento')
             default:
                 return console.log('actions clicked', valueToEmit)
         }
     }
-
+// TODO actions in input, paginazione e ordinamento
     return <>
+
+        {actions.map((action) => {
+            return action.actionOnTop ? (
+                 <Button key={action.type} type={action.type}  text={action.type} handleClick={() => actionEmitter(action.type)} />
+            ) : null
+        })}
         <table className={styles.tableStyle}>
             <thead>
             <tr>
@@ -32,10 +40,13 @@ const Table = ({headers, data}) => {
                             return header !== 'azioni' ? (
                                 <td key={header}>{dataRow[header]}</td>
                             ) : (
-                                <td key={'actions'}>
+                                <td key={'azioni'}>
                                     <div className={styles.actions}>
-                                    <Button text={'modifica'} handleClick={() => action('modifica', dataRow)}/>
-                                    <Button text={'elimina'} handleClick={() => action('elimina', dataRow)}/>
+                                        {actions.map((action) => {
+                                            return !action.actionOnTop ? (
+                                                <Button key={action.type} type={action.type} text={action.type} handleClick={() => actionEmitter(action.type, dataRow)} />
+                                            ) : null
+                                        })}
                                     </div>
                                 </td>
                             )

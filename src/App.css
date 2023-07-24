@@ -11,3 +11,7 @@
 .light-down {
   background-color: darkslategrey !important;
 }
+
+.table-area {
+  padding: 90px;
+}

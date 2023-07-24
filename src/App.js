@@ -9,6 +9,23 @@ function App() {
     const [count, setCount] = useState(0)
     const [light, setLight] = useState(true)
     const headers = ['nome', 'cognome', 'azioni']
+    const actions = [
+        {
+            type: 'modifica',
+            actionOnTop: false,
+            cssClass: ''
+        },
+        {
+            type: 'elimina',
+            actionOnTop: false,
+            cssClass: ''
+        },
+        {
+            type: 'nuovo',
+            actionOnTop: true,
+            cssClass: ''
+        }
+    ]
     const tableData = [
         {
             id: 1,
@@ -51,7 +68,7 @@ function App() {
     ]
 
     function saySomething() {
-        console.log('its working')
+        alert('I am talking')
     }
 
     function addCount() {
@@ -89,13 +106,14 @@ function App() {
                 />
                 {count}
             </div>
-            <div>
-                <Table headers={headers} data={tableData}/>
+            <div className="table-area">
+                <Table headers={headers} data={tableData} actions={actions}/>
             </div>
 
-            <div>
-                <Form questions={questions}/>
-            </div>
+            {/*<div>*/}
+            {/*    <Form questions={questions}/>*/}
+            {/*</div>*/}
+
         </>
     );
 }
