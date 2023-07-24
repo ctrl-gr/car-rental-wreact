@@ -57,9 +57,9 @@ function App() {
     return (
         <>
             <div className="buttons">
-                <Button handleClick={eventHandler(Button.type)} type={'speaker'} text={'let me talk'}/>
-                <Button handleClick={eventHandler(Button.type)} type={'counter'} text={'add count'}/>
-                <Button handleClick={eventHandler(Button.type)} type={'lighter'} text={'light me up'}
+                <Button handleClick={() => eventHandler('speaker')} type={'speaker'} text={'let me talk'}/>
+                <Button handleClick={() => eventHandler('counter')} type={'counter'} text={'add count'}/>
+                <Button handleClick={() => eventHandler('lighter')} type={'lighter'} text={'light me up'}
                         className={light ? 'light-up' : 'light-down'}/>
                 {count}
             </div>

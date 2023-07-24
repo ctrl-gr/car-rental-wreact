@@ -6,7 +6,7 @@ const Table = ({headers, data}) => {
     return <>
         <table className={styles.tableStyle}>
             <thead>
-            <tr className={styles.tr}>
+            <tr>
                 {headers.map((header) => {
                     return <th key={header}>{header}</th>
                 })}
@@ -15,7 +15,7 @@ const Table = ({headers, data}) => {
             <tbody>
             {data.map((dataRow) => {
                 return (
-                    <tr className={styles.tr} key={dataRow.id}>
+                    <tr key={dataRow.id}>
                         {headers.map((header) => {
                             return <td key={header}>{dataRow[header]}</td>
                         })}
