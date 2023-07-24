@@ -2,19 +2,10 @@ import React from 'react'
 import styles from './Table.module.css'
 import Button from "../button/Button";
 
-const Table = ({headers, data, actions}) => {
+const Table = ({headers, data, actions, handleAction}) => {
 
     function actionEmitter(type, valueToEmit) {
-        switch (type) {
-            case 'modifica':
-                return console.log('modificato', valueToEmit)
-            case 'elimina':
-                return console.log('eliminato', valueToEmit)
-            case 'nuovo':
-                return console.log('nuovo elemento')
-            default:
-                return console.log('actions clicked', valueToEmit)
-        }
+        handleAction(type, valueToEmit)
     }
 // TODO actions in input, paginazione e ordinamento
     return <>

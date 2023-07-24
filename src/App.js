@@ -6,6 +6,7 @@ import Form from "./components/form/Form"
 
 
 function App() {
+
     const [count, setCount] = useState(0)
     const [light, setLight] = useState(true)
     const headers = ['nome', 'cognome', 'azioni']
@@ -96,18 +97,31 @@ function App() {
         }
     }
 
+    function actionEmitter(type, valueToEmit) {
+        switch (type) {
+            case 'modifica':
+                return console.log('modificato', valueToEmit)
+            case 'elimina':
+                return console.log('eliminato', valueToEmit)
+            case 'nuovo':
+                return console.log('nuovo elemento')
+            default:
+                return console.log('actions clicked', valueToEmit)
+        }
+    }
+
     return (
         <>
             <div className="buttons">
                 <Button handleClick={() => eventHandler('speaker')} type={'speaker'} text={'let me talk'}/>
                 <Button handleClick={() => eventHandler('counter')} type={'counter'} text={'add count'}/>
-                <Button className={light ? 'light-up' : 'light-down'} handleClick={() => eventHandler('lighter')}
+                <Button className={` ${light ? "light-up" : "light-down"}`} handleClick={() => eventHandler('lighter')}
                         type={'lighter'} text={'light me up'}
                 />
                 {count}
             </div>
             <div className="table-area">
-                <Table headers={headers} data={tableData} actions={actions}/>
+                <Table headers={headers} data={tableData} actions={actions} handleAction={actionEmitter} />
             </div>
 
             {/*<div>*/}
