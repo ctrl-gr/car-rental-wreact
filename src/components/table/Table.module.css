@@ -2,5 +2,22 @@
     width: 75%;
     border: 1px solid black;
     border-collapse: collapse;
+    padding: 10px;
 }
 
+.tableStyle {
+    padding: 10px;
+    margin: 40px;
+}
+
+.headers {
+    color: blue;
+    background-color: lightgreen;
+}
+
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

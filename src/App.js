@@ -2,12 +2,13 @@ import './App.css';
 import Button from '../src/components/button/Button'
 import {useState} from "react";
 import Table from "./components/table/Table";
+import Form from "./components/form/Form"
 
 
 function App() {
     const [count, setCount] = useState(0)
     const [light, setLight] = useState(true)
-    const headers = ['nome', 'cognome']
+    const headers = ['nome', 'cognome', 'azioni']
     const tableData = [
         {
             id: 1,
@@ -26,6 +27,29 @@ function App() {
         }
     ]
 
+    const questions = [
+        {
+            qText: 'cognome',
+            type: 'text'
+        },
+        {
+            qText: 'nome',
+            type: 'text'
+        },
+        {
+            qText: 'squadra preferita',
+            type: 'text'
+        },
+        {
+            qText: 'username',
+            type: 'text'
+        },
+        {
+            qText: 'password',
+            type: 'password'
+        }
+    ]
+
     function saySomething() {
         console.log('its working')
     }
@@ -36,6 +60,7 @@ function App() {
 
     function enlightenMe() {
         setLight(!light)
+        console.log('value of light', light)
     }
 
     function eventHandler(type) {
@@ -59,12 +84,17 @@ function App() {
             <div className="buttons">
                 <Button handleClick={() => eventHandler('speaker')} type={'speaker'} text={'let me talk'}/>
                 <Button handleClick={() => eventHandler('counter')} type={'counter'} text={'add count'}/>
-                <Button handleClick={() => eventHandler('lighter')} type={'lighter'} text={'light me up'}
-                        className={light ? 'light-up' : 'light-down'}/>
+                <Button className={light ? 'light-up' : 'light-down'} handleClick={() => eventHandler('lighter')}
+                        type={'lighter'} text={'light me up'}
+                />
                 {count}
             </div>
             <div>
                 <Table headers={headers} data={tableData}/>
+            </div>
+
+            <div>
+                <Form questions={questions}/>
             </div>
         </>
     );
