@@ -1,8 +1,6 @@
-.tableStyle {
+.tableStyle, th, tr, td {
     width: 75%;
-    border: 5px solid black;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 
-.tr {
-    border-bottom: 1px solid black !important;
-}
