@@ -1,18 +1,40 @@
-import React from 'react'
+import React, {useMemo, useState} from 'react'
 import styles from './Table.module.css'
 import Button from "../button/Button";
+import Pagination from "../../Pagination";
+
+let initialPageSize = 3;
 
 const Table = ({headers, data, actions, handleAction}) => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [pageSize, setPageSize] = useState(initialPageSize)
+    const [showAll, setShowAll] = useState(false);
+
+    const tableData = useMemo(() => {
+        const showAll = !pageSize
+        if (showAll) {
+            return data
+        }
+        const firstPageIndex = (currentPage - 1) * pageSize;
+        const lastPageIndex = firstPageIndex + pageSize;
+        return data.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, pageSize, data, showAll]);
 
     function actionEmitter(type, valueToEmit) {
         handleAction(type, valueToEmit)
     }
-// TODO actions in input, paginazione e ordinamento
+
+    function handlePageSizeChange(newSize) {
+        setCurrentPage(1);
+        setPageSize(newSize);
+        setShowAll(!newSize)
+    }
+// TODO ordinamento
     return <>
 
         {actions.map((action) => {
             return action.actionOnTop ? (
-                 <Button key={action.type} type={action.type}  text={action.type} handleClick={() => actionEmitter(action.type)} />
+                 <Button key={action.type} type={action.type}  className={styles.actiontop} text={action.type} handleClick={() => actionEmitter(action.type)} />
             ) : null
         })}
         <table className={styles.tableStyle}>
@@ -24,7 +46,7 @@ const Table = ({headers, data, actions, handleAction}) => {
             </tr>
             </thead>
             <tbody>
-            {data.map((dataRow) => {
+            {tableData.map((dataRow) => {
                 return (
                     <tr key={dataRow.id}>
                         {headers.map((header) => {
@@ -47,6 +69,14 @@ const Table = ({headers, data, actions, handleAction}) => {
             })}
             </tbody>
         </table>
+        <Pagination
+            className="pagination-bar"
+            currentPage={currentPage}
+            totalCount={data.length}
+            pageSize={pageSize}
+            onPageChange={page => setCurrentPage(page)}
+            onPageSizeChange={handlePageSizeChange}
+            />
     </>
 }
 

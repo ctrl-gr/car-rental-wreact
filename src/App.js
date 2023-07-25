@@ -40,9 +40,54 @@ function App() {
         },
         {
             id: 3,
-            nome: 'Rafa',
+            nome: 'Rafael',
             cognome: 'Leao'
-        }
+        },
+        {
+            id: 4,
+            nome: 'Theo',
+            cognome: 'Hernandez'
+        },
+        {
+            id: 5,
+            nome: 'Olivier',
+            cognome: 'Giroud'
+        },
+        {
+            id: 6,
+            nome: 'Mike',
+            cognome: 'Maignan'
+        },
+        {
+            id: 7,
+            nome: 'Andriy',
+            cognome: 'Shevchenko'
+        },
+        {
+            id: 8,
+            nome: 'Zlatan',
+            cognome: 'Ibrahimovic'
+        },
+        {
+            id: 9,
+            nome: 'Filippo',
+            cognome: 'Inzaghi'
+        },
+        {
+            id: 10,
+            nome: 'Hernan',
+            cognome: 'Crespo'
+        },
+        {
+            id: 11,
+            nome: 'Paolo',
+            cognome: 'Maldini'
+        },
+        {
+            id: 12,
+            nome: 'Alessandro',
+            cognome: 'Nesta'
+        },
     ]
 
     const questions = [
@@ -112,14 +157,14 @@ function App() {
 
     return (
         <>
-            <div className="buttons">
-                <Button handleClick={() => eventHandler('speaker')} type={'speaker'} text={'let me talk'}/>
-                <Button handleClick={() => eventHandler('counter')} type={'counter'} text={'add count'}/>
-                <Button className={` ${light ? "light-up" : "light-down"}`} handleClick={() => eventHandler('lighter')}
-                        type={'lighter'} text={'light me up'}
-                />
-                {count}
-            </div>
+            {/*<div className="buttons">*/}
+            {/*    <Button handleClick={() => eventHandler('speaker')} type={'speaker'} text={'let me talk'}/>*/}
+            {/*    <Button handleClick={() => eventHandler('counter')} type={'counter'} text={'add count'}/>*/}
+            {/*    <Button className={` ${light ? "light-up" : "light-down"}`} handleClick={() => eventHandler('lighter')}*/}
+            {/*            type={'lighter'} text={'light me up'}*/}
+            {/*    />*/}
+            {/*    {count}*/}
+            {/*</div>*/}
             <div className="table-area">
                 <Table headers={headers} data={tableData} actions={actions} handleAction={actionEmitter} />
             </div>
