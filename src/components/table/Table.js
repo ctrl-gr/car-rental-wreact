@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react'
 import styles from './Table.module.css'
 import Button from "../button/Button";
-import Pagination from "../../Pagination";
+import Pagination from "../../utils/pagination/Pagination";
 
 let initialPageSize = 3;
 
