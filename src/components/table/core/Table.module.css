@@ -16,6 +16,8 @@
 }
 
 
+/*REGION BUTTONS */
+
 .actions {
     display: flex;
     justify-content: space-evenly;
@@ -25,4 +27,13 @@
 .actiontop {
     margin-bottom: 2% !important;
 }
+
+.sort {
+    width: 25px !important;
+    height: 25px !important;
+    margin-right: 2%;
+}
+
+/*END REGION BUTTONS */
+
 

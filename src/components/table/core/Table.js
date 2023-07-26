@@ -1,24 +1,30 @@
 import React, {useMemo, useState} from 'react'
 import styles from './Table.module.css'
-import Button from "../button/Button";
-import Pagination from "../../utils/pagination/Pagination";
+import Button from "../../button/Button";
+import Pagination from "../basic components/pagination/Pagination";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import  useSort from '../basic components/hooks/useSort'
 
-let initialPageSize = 3;
 
 const Table = ({headers, data, actions, handleAction}) => {
+    const initialPageSize = data.length;
     const [currentPage, setCurrentPage] = useState(1)
     const [pageSize, setPageSize] = useState(initialPageSize)
-    const [showAll, setShowAll] = useState(false);
+    const [showAll, setShowAll] = useState(false)
+
+    const {sortedData, sortKey, sortDirection, handleSort} = useSort(data, 'nome', 'asc')
 
     const tableData = useMemo(() => {
         const showAll = !pageSize
         if (showAll) {
-            return data
+            return sortedData
         }
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
-        return data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, pageSize, data, showAll]);
+        return sortedData.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, pageSize, sortedData, showAll]);
+
 
     function actionEmitter(type, valueToEmit) {
         handleAction(type, valueToEmit)
@@ -29,19 +35,26 @@ const Table = ({headers, data, actions, handleAction}) => {
         setPageSize(newSize);
         setShowAll(!newSize)
     }
-// TODO ordinamento
+
     return <>
 
         {actions.map((action) => {
             return action.actionOnTop ? (
-                 <Button key={action.type} type={action.type}  className={styles.actiontop} text={action.type} handleClick={() => actionEmitter(action.type)} />
+                 <Button key={action.type} type={action.type} customClass={styles.actiontop} text={action.type} handleClick={() => actionEmitter(action.type)} />
             ) : null
         })}
         <table className={styles.tableStyle}>
             <thead>
             <tr>
                 {headers.map((header) => {
-                    return <th key={header} className={styles.headers}>{header}</th>
+                    return <th key={header} className={styles.headers}>
+                        {sortDirection === 'asc' ?
+
+                            <Button icon={faSortUp} customClass={styles.sort} handleClick={() => handleSort(header, 'asc')}  />
+                        :
+                            <Button icon={faSortDown} customClass={styles.sort} handleClick={() => handleSort(header, 'desc')}/>
+                        }
+                        {header}</th>
                 })}
             </tr>
             </thead>

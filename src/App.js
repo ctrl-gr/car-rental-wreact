@@ -1,7 +1,7 @@
 import './App.css';
 import Button from '../src/components/button/Button'
 import {useState} from "react";
-import Table from "./components/table/Table";
+import Table from "./components/table/core/Table";
 import Form from "./components/form/Form"
 
 

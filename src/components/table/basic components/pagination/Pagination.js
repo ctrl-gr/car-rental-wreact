@@ -1,5 +1,5 @@
 import React from "react";
-import {usePagination, DOTS} from "../../hooks/usePagination";
+import {usePagination, DOTS} from "../hooks/usePagination";
 import classnames from "classnames";
 import './pagination.scss';
 
@@ -49,13 +49,13 @@ const Pagination = props => {
             >
                 <div className="arrow left" />
             </li>
-            {paginationRange.map(pageNumber => {
+            {paginationRange.map((pageNumber, index) => {
                 if (pageNumber === DOTS) {
-                    return <li className="pagination-item dots">&#8230;</li>;
+                    return <li key={index} className="pagination-item dots">&#8230;</li>;
                 }
 
                 return (
-                    <li
+                    <li key={index}
                         className={classnames('pagination-item', {
                             selected: pageNumber === currentPage
                         })}
