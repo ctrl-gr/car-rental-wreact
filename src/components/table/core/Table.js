@@ -2,7 +2,6 @@ import React, {useMemo, useState} from 'react'
 import styles from './Table.module.css'
 import Button from "../../button/Button";
 import Pagination from "../basic components/pagination/Pagination";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import  useSort from '../basic components/hooks/useSort'
 

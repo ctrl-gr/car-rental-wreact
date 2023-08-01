@@ -4,7 +4,7 @@ import {
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation
-} from "../api/apiSlice";
+} from "../../api/apiSlice";
 import Table from "../../components/table/core/Table";
 
 function UsersList() {
