@@ -6,12 +6,18 @@ const Navbar = () => {
     return (
         <div className={styles.nav}>
             <nav>
-                    <li>
-                        <Link to="/">homepage</Link>
-                    </li>
-                    <li>
-                        <Link to="/users">Users</Link>
-                    </li>
+                <li>
+                    <Link to="/">homepage</Link>
+                </li>
+                <li>
+                    <Link to="/users">Users</Link>
+                </li>
+                <li>
+                    <Link to="/cars">Cars</Link>
+                </li>
+                <li>
+                    <Link to="/bookings">Bookings</Link>
+                </li>
             </nav>
         </div>
     )
