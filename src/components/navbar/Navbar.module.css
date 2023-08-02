@@ -1,28 +1,74 @@
+/*.nav {*/
+/*    width: 100%;*/
+/*    background-color: antiquewhite;*/
+/*    margin-bottom: 5%;*/
+/*}*/
+
+/*nav {*/
+/*    display: flex;*/
+/*    justify-content: initial;*/
+/*    padding: 2%;*/
+/*}*/
+
+/*nav li {*/
+/*    list-style: none;*/
+/*    margin-right: 4%;*/
+/*}*/
+
+/*nav li:last-child {*/
+/*    margin-right: 0;*/
+/*}*/
+
+/*nav a {*/
+/*    color: black;*/
+/*    text-decoration: none;*/
+/*}*/
+/*nav a:hover {*/
+/*    color: blue;*/
+/*}*/
+
+/*.subMenu {*/
+/*    color: blue;*/
+/*}*/
+
+/* Navbar.module.css */
 .nav {
-    width: 100%;
     background-color: antiquewhite;
+    padding: 10px;
+    width: available;
     margin-bottom: 5%;
 }
 
-nav {
+.navbarList {
     display: flex;
-    justify-content: initial;
-    padding: 2%;
-}
-
-nav li {
     list-style: none;
-    margin-right: 4%;
+    justify-content: space-evenly;
 }
 
-nav li:last-child {
-    margin-right: 0;
-}
-
-nav a {
+.navbarList li {
     color: black;
     text-decoration: none;
+    cursor: pointer;
 }
-nav a:hover {
-    color: blue;
+
+.submenu ul {
+    display: none;
+    position: absolute;
+    background-color: antiquewhite;
+    padding: 1%;
+    list-style: none;
+    width: 10%;
+}
+
+.submenu:hover ul {
+    display: block;
+}
+
+.submenu ul li, .submenu a, .nav a, .submenu ul li a:visited {
+    text-decoration: none;
+}
+
+.submenu:hover > span {
+    text-decoration: none;
+    cursor: pointer;
 }

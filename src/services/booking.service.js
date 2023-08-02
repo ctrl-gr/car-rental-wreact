@@ -44,7 +44,7 @@ export const bookingApi = apiSlice.injectEndpoints({
     })
 })
 
-export const { useGetBookingsMutation,
+export const { useGetBookingsQuery,
     useAddNewBookingMutation,
     useApproveBookingMutation,
     useDeleteBookingMutation } = bookingApi
