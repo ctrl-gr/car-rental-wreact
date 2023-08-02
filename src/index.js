@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {apiSlice} from "./api/apiSlice";
+import {apiSlice} from "./services/apiSlice";
 import {ApiProvider} from "@reduxjs/toolkit/dist/query/react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

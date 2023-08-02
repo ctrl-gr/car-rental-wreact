@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import {
-    useGetUsersQuery,
-    useAddNewUserMutation,
-    useUpdateUserMutation,
-    useDeleteUserMutation
-} from "../../api/apiSlice";
+    userApi
+} from "../../services/user.service";
 import Table from "../../components/table/core/Table";
 
-function UsersList() {
+const UsersList = () => {
+
+    const { useGetUsersQuery, useAddNewUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;
+
     const [addNewUser, response] = useAddNewUserMutation()
     const [deleteUser] = useDeleteUserMutation()
     const [inputField, setInputField] = useState({
