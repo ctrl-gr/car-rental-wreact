@@ -1,17 +1,19 @@
 import {apiSlice} from './apiSlice'
 
+const userUrl = '/users'
+
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         getUsers: build.query({
             query: () => ({
-                url: '/users/all',
+                url: userUrl + '/all',
                 method: 'GET'
             }),
             providesTags: ['User'],
         }),
         addNewUser: build.mutation({
             query: (payload) => ({
-                url: '/users/save',
+                url: userUrl + '/save',
                 method: 'POST',
                 body: payload,
             }),
@@ -22,7 +24,7 @@ export const userApi = apiSlice.injectEndpoints({
                 console.log(payload)
                 const {id, ...body} = payload
                 return {
-                    url: `/users/edit/${id}`,
+                    url: userUrl + '/edit/${id}',
                     method: 'PUT',
                     body,
                 }
@@ -31,7 +33,7 @@ export const userApi = apiSlice.injectEndpoints({
         }),
         deleteUser: build.mutation({
             query: (id) => ({
-                url: `/users/delete/${id}`,
+                url: userUrl + '/delete/${id}',
                 method: 'DELETE',
                 credentials: 'include',
             }),

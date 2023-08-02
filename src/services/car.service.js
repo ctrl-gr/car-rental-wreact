@@ -1,17 +1,19 @@
 import {apiSlice} from './apiSlice'
 
+const carUrl = '/cars'
+
 export const carApi = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         getCars: build.query({
             query: () => ({
-                url: '/cars/all',
+                url: carUrl + '/all',
                 method: 'GET'
             }),
             providesTags: ['Car'],
         }),
         addNewCar: build.mutation({
             query: (payload) => ({
-                url: '/cars/save',
+                url: carUrl + '/save',
                 method: 'POST',
                 body: payload,
             }),
@@ -22,7 +24,7 @@ export const carApi = apiSlice.injectEndpoints({
                 console.log(payload)
                 const {id, ...body} = payload
                 return {
-                    url: `/cars/edit`,
+                    url: carUrl + '/edit',
                     method: 'PUT',
                     body,
                 }
@@ -31,7 +33,7 @@ export const carApi = apiSlice.injectEndpoints({
         }),
         deleteCar: build.mutation({
             query: (id) => ({
-                url: `/cars/delete/${id}`,
+                url: carUrl + '/delete/${id}',
                 method: 'DELETE',
                 credentials: 'include',
             }),
