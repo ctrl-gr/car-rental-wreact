@@ -37,7 +37,7 @@ const Navbar = () => {
                         Booking Area
                         <ul>
                             <li>
-                                <Link to="/booking/form">Booking Form</Link>
+                                <Link to="/bookings/form">Booking Form</Link>
                             </li>
                             <li>
                                 <Link to="/bookings/list">Booking List</Link>

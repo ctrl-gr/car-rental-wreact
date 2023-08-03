@@ -6,76 +6,10 @@ import Table from "../../components/table/core/Table";
 
 const UsersList = () => {
 
-    const { useGetUsersQuery, useAddNewUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;
+    const { useGetUsersQuery, useDeleteUserMutation } = userApi;
 
-    const [addNewUser, response] = useAddNewUserMutation()
     const [deleteUser] = useDeleteUserMutation()
-    const [inputField, setInputField] = useState({
-        firstName: '',
-        lastName: '',
-        username: '',
-        password: ''
-    })
 
-    const inputsHandler = (e) => {
-        setInputField((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
-    }
-
-    const [updatePost, {isLoading: isUpdating}] = useUpdateUserMutation()
-    const setPostData = (data) => {
-        setInputField({
-            firstName: data.firstName,
-            lastName: data.lastName,
-            username: data.username,
-            password: data.password
-        })
-    }
-    const onEditData = () => {
-        updatePost({
-            firstName: inputField.firstName,
-            lastName: inputField.lastName,
-            username: inputField.username,
-            password: inputField.password
-        })
-        setInputField(() => ({
-            firstName: '',
-            lastName: '',
-            username: '',
-            password: ''
-        }))
-    }
-
-    const onSubmit = (e) => {
-        e.preventDefault()
-        const {firstName, lastName, username, password} = e.target.elements
-        setInputField((inputField) => ({
-            ...inputField,
-            [e.target.name]: e.target.value,
-        }))
-        let formData = {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            username: username.value,
-            password: password.value
-        }
-
-        addNewUser(formData)
-            .unwrap()
-            .then(() => {
-                setInputField(() => ({
-                    firstName: '',
-                    lastName: '',
-                    username: '',
-                    password: ''
-                }))
-            })
-            .then((error) => {
-                console.log(error)
-            })
-    }
     const {
         data: users,
         isLoading: isGetLoading,
@@ -140,54 +74,8 @@ const UsersList = () => {
         )
     }
     return (
-        <div className="row">
-            <div className="col-md-4 offset-md-*">
-                <form onSubmit={onSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">
-                            <strong>Enter Title</strong>
-                        </label>
-                        <input
-                            value={inputField.firstName}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.lastName}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.username}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                    </div>
-                    <button className="btn btn-danger me-2" type="submit">
-                        Submit
-                    </button>
-                    <button
-                        onClick={onEditData}
-                        className="btn btn-primary"
-                        type="button"
-                    >
-                        Update
-                    </button>
-                </form>
-            </div>
-            <div className="col-lg-8">
-                <div className="row">{usersContent}</div>
-            </div>
-        </div>
+        <>
+        </>
     )
 }
 

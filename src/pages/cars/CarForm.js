@@ -1,38 +1,48 @@
 import React, {useState} from 'react';
-import {userApi} from "../../services/user.service";
+import {carApi} from "../../services/car.service";
 import Form from '../../components/form/Form'
 
-const UserForm = () => {
+const CarForm = () => {
 
-    const { useAddNewUserMutation, useUpdateUserMutation, } = userApi;
-    const [addNewUser, response] = useAddNewUserMutation()
+    const { useAddNewCarMutation, useUpdateCarMutation, } = carApi;
+    const [addNewCar, response] = useAddNewCarMutation()
 
-    const userQuestions = [
+    const carQuestions = [
         {
             id: 0,
-            qtext: 'firstName',
+            qtext: 'licensePlate',
             type: 'text'
         },
         {
             id: 1,
-            qtext: 'lastName',
+            qtext: 'manufacturer',
             type: 'text'
         },
         {
             id: 2,
-            qtext: 'birthDate',
-            type: 'date'
+            qtext: 'model',
+            type: 'text'
 
         },
         {
             id: 3,
-            qtext: 'username',
+            qtext: 'type',
             type: 'text'
         },
         {
             id: 4,
-            qtext: 'password',
-            type: 'password'
+            qtext: 'year',
+            type: 'text'
+        },
+        {
+            id: 5,
+            qtext: 'seats',
+            type: 'text'
+        },
+        {
+            id: 6,
+            qtext: 'headquarters',
+            type: 'text'
         },
     ]
 
@@ -76,7 +86,7 @@ const UserForm = () => {
 
     const onSubmit = (formData) => {
         console.log('entered', formData)
-        addNewUser(formData)
+        addNewCar(formData)
             .unwrap()
             .then(() => {
                 // setInputField(() => ({
@@ -93,9 +103,9 @@ const UserForm = () => {
 
     return (
         <div>
-           <Form questions={userQuestions} onSubmitForm={onSubmit}/>
+            <Form questions={carQuestions} onSubmitForm={onSubmit}/>
         </div>
     )
 }
 
-export default UserForm
+export default CarForm
