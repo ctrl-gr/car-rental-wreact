@@ -33,12 +33,11 @@ export const carApi = apiSlice.injectEndpoints({
         }),
         getAvailableCars: build.query({
             query: (payload) => {
-                console.log(payload)
-                const {id, ...params} = payload
+                const {startDate, endDate} = payload
                 return {
                     url: carUrl + '/get-available-cars',
                     method: 'GET',
-                    params,
+                    params: {startDate, endDate},
                 }
             },
             providesTags: ['Car'],
