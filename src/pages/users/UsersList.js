@@ -3,11 +3,12 @@ import {
     userApi
 } from "../../services/user.service";
 import Table from "../../components/table/core/Table";
+import {useNavigate} from "react-router-dom";
 
 const UsersList = () => {
 
     const { useGetUsersQuery, useDeleteUserMutation } = userApi;
-
+    const navigate = useNavigate()
     const [deleteUser] = useDeleteUserMutation()
 
     const {
@@ -42,6 +43,7 @@ const UsersList = () => {
     function actionEmitter(type, valueToEmit) {
         switch (type) {
             case 'modifica':
+                navigate('/users/form/'+ valueToEmit.username)
                 return console.log(valueToEmit)
                 // return setPostData(valueToEmit)
             case 'elimina':

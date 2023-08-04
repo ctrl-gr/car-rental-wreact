@@ -12,10 +12,11 @@ export const bookingApi = apiSlice.injectEndpoints({
             providesTags: ['Booking'],
         }),
         addNewBooking: build.mutation({
-            query: (payload) => ({
+            query: (payload) => (
+                {
                 url: bookingUrl + '/save',
                 method: 'POST',
-                body: payload,
+                params: {licensePlate: payload.licensePlate, username: 'admin', startDate: payload.startDate, endDate: payload.endDate},
             }),
             invalidatesTags: ['Booking'],
         }),

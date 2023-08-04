@@ -11,6 +11,16 @@ export const userApi = apiSlice.injectEndpoints({
             }),
             providesTags: ['User'],
         }),
+        getUserByUsername: build.query({
+            query: (username) => {
+                console.log(username)
+                return {
+                    url: userUrl + '/get-user-by-username/`${username}`',
+                    method: 'GET',
+                }
+            },
+            providesTags: ['User'],
+        }),
         addNewUser: build.mutation({
             query: (payload) => ({
                 url: userUrl + '/save',
@@ -45,6 +55,7 @@ export const userApi = apiSlice.injectEndpoints({
 })
 
 export const { useGetUsersQuery,
+    useGetUserByUsernameQuery,
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation } = userApi

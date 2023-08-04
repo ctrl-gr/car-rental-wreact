@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import Form from '../../components/form/Form'
 import {carApi} from "../../services/car.service";
-
-
 import Table from "../../components/table/core/Table";
+import { useAddNewBookingMutation} from "../../services/booking.service";
+import {useNavigate} from "react-router-dom";
 
 const BookingForm = () => {
 
-    const {useGetAvailableCarsQuery} = carApi;
+    const navigate = useNavigate()
+    const {useGetAvailableCarsQuery } = carApi;
+    const [addNewBooking] = useAddNewBookingMutation()
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -52,11 +54,14 @@ const BookingForm = () => {
          }
      ]
 
+
      function actionEmitter(type, valueToEmit) {
          switch (type) {
              case 'prenota':
-                return console.log(valueToEmit)
-             // return setPostData(valueToEmit)
+                 addNewBooking({licensePlate: valueToEmit.licensePlate, startDate, endDate})
+                 alert('Booking submitted for approval.')
+                 navigate("/")
+                 return
              default:
                  return console.log('actions clicked', valueToEmit)
          }

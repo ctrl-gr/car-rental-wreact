@@ -1,11 +1,15 @@
 import React, {useState} from 'react';
-import {userApi} from "../../services/user.service";
+import { userApi} from "../../services/user.service";
 import Form from '../../components/form/Form'
+import {useParams} from "react-router-dom";
 
 const UserForm = () => {
-
-    const { useAddNewUserMutation, useUpdateUserMutation, } = userApi;
+    const {username} = useParams()
+    console.log(username)
+    const {useAddNewUserMutation, useGetUserByUsernameQuery, useUpdateUserMutation,} = userApi;
     const [addNewUser, response] = useAddNewUserMutation()
+    const {data: userData, isLoading: isUserDataLoading} = useGetUserByUsernameQuery(username);
+    console.log(userData)
 
     const userQuestions = [
         {
@@ -36,64 +40,30 @@ const UserForm = () => {
         },
     ]
 
-    // const [inputField, setInputField] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     username: '',
-    //     password: ''
-    // })
-    //
-    // const inputsHandler = (e) => {
-    //     setInputField((prevState) => ({
-    //         ...prevState,
-    //         [e.target.name]: e.target.value,
-    //     }))
-    // }
-    //
-    // const [updatePost, {isLoading: isUpdating}] = useUpdateUserMutation()
-    // const setPostData = (data) => {
-    //     setInputField({
-    //         firstName: data.firstName,
-    //         lastName: data.lastName,
-    //         username: data.username,
-    //         password: data.password
-    //     })
-    // }
-    // const onEditData = () => {
-    //     updatePost({
-    //         firstName: inputField.firstName,
-    //         lastName: inputField.lastName,
-    //         username: inputField.username,
-    //         password: inputField.password
-    //     })
-    //     setInputField(() => ({
-    //         firstName: '',
-    //         lastName: '',
-    //         username: '',
-    //         password: ''
-    //     }))
-    // }
-
     const onSubmit = (formData) => {
-        console.log('entered', formData)
-        addNewUser(formData)
-            .unwrap()
-            .then(() => {
-                // setInputField(() => ({
-                //     firstName: '',
-                //     lastName: '',
-                //     username: '',
-                //     password: ''
-                // }))
-            })
-            .then((error) => {
-                console.log(error)
-            })
+        if (username) {
+            console.log('edit')
+        } else {
+            console.log('entered', formData)
+            addNewUser(formData)
+                .unwrap()
+                .then(() => {
+                    // setInputField(() => ({
+                    //     firstName: '',
+                    //     lastName: '',
+                    //     username: '',
+                    //     password: ''
+                    // }))
+                })
+                .then((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     return (
         <div>
-           <Form questions={userQuestions} onSubmitForm={onSubmit}/>
+            <Form questions={userQuestions} onSubmitForm={onSubmit}/>
         </div>
     )
 }
