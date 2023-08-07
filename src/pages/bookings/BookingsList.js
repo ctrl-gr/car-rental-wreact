@@ -3,101 +3,40 @@ import {
     bookingApi
 } from "../../services/booking.service";
 import Table from "../../components/table/core/Table";
+import {useNavigate} from "react-router-dom";
 
 const BookingsList = () => {
-
-    const { useGetBookingsQuery,
-        useAddNewBookingMutation,
+    const navigate = useNavigate()
+    const {
+        useGetBookingsQuery,
         useApproveBookingMutation,
-        useDeleteBookingMutation } = bookingApi;
+        useDeleteBookingMutation
+    } = bookingApi;
 
-    const [addNewBooking, response] = useAddNewBookingMutation()
     const [deleteBooking] = useDeleteBookingMutation()
-    const [inputField, setInputField] = useState({
-        startDate: '',
-        endDate: '',
-        user: '',
-        licensePlate: ''
-    })
-
-    const inputsHandler = (e) => {
-        setInputField((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
-    }
 
     const [approveBooking, {isLoading: isUpdating}] = useApproveBookingMutation()
-    const setBookingData = (data) => {
-       setInputField({
-            licensePlate: data.license,
-            user: data.user,
-            startDate: data.startDate,
-             endDate: data.endDate
-        })
-     }
-     const onEditData = () => {
-        approveBooking({
-           licensePlate: inputField.licensePlate,
-      user: inputField.user,
-       startDate: inputField.startDate,
-      endDate: inputField.endDate
-        })
-        setInputField(() => ({
-           licensePlate: '',
-            user: '',
-             startDate: '',
-             endDate: ''
-        }))
-     }
 
-     const onSubmit = (e) => {
-         e.preventDefault()
-         const {licensePlate, user, startDate, endDate} = e.target.elements
-         setInputField((inputField) => ({
-            ...inputField,
-            [e.target.name]: e.target.value,
-         }))
-         let formData = {
-            licensePlate: licensePlate.value,
-         user: user.value,
-         startDate: startDate.value,
-         endDate: endDate.value
-        }
 
-         addNewBooking(formData)
-            .unwrap()
-            .then(() => {
-                 setInputField(() => ({
-                licensePlate: '',
-                                user: '',
-                                  startDate: '',
-                                 endDate: ''
-                 }))
-            })
-             .then((error) => {
-                console.log(error)
-            })
-     }
     const {
-       data: bookings,
-     isLoading: isGetLoading,
-     isSuccess: isGetSuccess,
-     isError: isGetError,
-      error: getError
-     } = useGetBookingsQuery({refetchOnMountOrArgChange: true})
+        data: bookings,
+        isLoading: isGetLoading,
+        isSuccess: isGetSuccess,
+        isError: isGetError,
+        error: getError
+    } = useGetBookingsQuery({refetchOnMountOrArgChange: true})
 
 
     let bookingsContent
-    const bookingsListHeaders = ['startDate', 'endDate', 'licensePlate', 'user', 'azioni']
+    const bookingsListHeaders = ['startDate', 'endDate', 'licensePlate', 'username', 'isApproved', 'azioni']
     const bookingsListActions = [
         {
-            type: 'modifica',
+            type: 'approva',
             actionOnTop: false,
             cssClass: ''
         },
         {
-            type: 'elimina',
+            type: 'rifiuta',
             actionOnTop: false,
             cssClass: ''
         },
@@ -110,13 +49,18 @@ const BookingsList = () => {
 
     function actionEmitter(type, valueToEmit) {
         switch (type) {
-            case 'modifica':
-                return console.log(valueToEmit)
-            // return setPostData(valueToEmit)
-            case 'elimina':
-                return (deleteBooking)
+            case 'approva':
+                console.log('before approving', valueToEmit.isApproved)
+                const approvedBooking = { username: valueToEmit.username, licensePlate: valueToEmit.licensePlate, startDate: valueToEmit.startDate, endDate: valueToEmit.endDate, isApproved: true}
+                console.log(approvedBooking.isApproved)
+                return approveBooking(approvedBooking)
+            case 'rifiuta':
+                console.log('before approving', valueToEmit.isApproved)
+                const rejectedBooking = { username: valueToEmit.username, licensePlate: valueToEmit.licensePlate, startDate: valueToEmit.startDate, endDate: valueToEmit.endDate, isApproved: false}
+                console.log(rejectedBooking.isApproved)
+                return approveBooking(rejectedBooking)
             case 'nuovo':
-                return console.log('nuovo elemento')
+                return navigate('/bookings/form')
             default:
                 return console.log('actions clicked', valueToEmit)
         }
@@ -133,7 +77,8 @@ const BookingsList = () => {
         )
     } else if (isGetSuccess) {
         return (
-            <Table headers={bookingsListHeaders} data={bookings} actions={bookingsListActions} handleAction={actionEmitter}/>
+            <Table headers={bookingsListHeaders} data={bookings} actions={bookingsListActions}
+                   handleAction={actionEmitter}/>
         )
     } else if (isGetError) {
         bookingsContent = (
@@ -142,64 +87,6 @@ const BookingsList = () => {
             </div>
         )
     }
-    return (
-        <div className="row">
-            <div className="col-md-4 offset-md-*">
-                <form onSubmit={onSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">
-                            <strong>Enter Title</strong>
-                        </label>
-                        <input
-                            value={inputField.licensePlate}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.user}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.startDate}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.endDate}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                    </div>
-                    <button className="btn btn-danger me-2" type="submit">
-                        Submit
-                    </button>
-                    <button
-                        onClick={onEditData}
-                        className="btn btn-primary"
-                        type="button"
-                    >
-                        Update
-                    </button>
-                </form>
-            </div>
-            <div className="col-lg-8">
-                <div className="row">{bookingsContent}</div>
-            </div>
-        </div>
-    )
 }
 
 export default BookingsList

@@ -3,82 +3,15 @@ import {
     carApi
 } from "../../services/car.service";
 import Table from "../../components/table/core/Table";
+import {useNavigate} from "react-router-dom";
 
 const CarsList = () => {
 
     const { useGetCarsQuery,
-        useAddNewCarMutation,
-        useUpdateCarMutation,
         useDeleteCarMutation } = carApi;
-
-    const [addNewCar, response] = useAddNewCarMutation()
+    const navigate = useNavigate()
     const [deleteCar] = useDeleteCarMutation()
-    const [inputField, setInputField] = useState({
-        licensePlate: '',
-        manufacturer: '',
-        model: '',
-        type: ''
-    })
 
-    const inputsHandler = (e) => {
-        setInputField((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
-    }
-
-    const [updateCar, {isLoading: isUpdating}] = useUpdateCarMutation()
-    const setCarData = (data) => {
-        setInputField({
-            licensePlate: data.license,
-            manufacturer: data.manufacturer,
-            model: data.model,
-            type: data.type
-        })
-    }
-    const onEditData = () => {
-        updateCar({
-            licensePlate: inputField.license,
-            manufacturer: inputField.manufacturer,
-            model: inputField.model,
-            type: inputField.type
-        })
-        setInputField(() => ({
-            licensePlate: '',
-            manufacturer: '',
-            model: '',
-            type: ''
-        }))
-    }
-
-    const onSubmit = (e) => {
-        e.preventDefault()
-        const {licensePlate, manufacturer, model, type} = e.target.elements
-        setInputField((inputField) => ({
-            ...inputField,
-            [e.target.name]: e.target.value,
-        }))
-        let formData = {
-            licensePlate: licensePlate.value,
-            manufacturer: manufacturer.value,
-            model: model.value,
-            type: type.value
-        }
-
-        addNewCar(formData)
-            .unwrap()
-            .then(() => {
-                setInputField(() => ({
-                    licensePlate: '',
-                    manufacturer: '',
-                    model: '',
-                    type: ''
-                }))
-            })
-            .then((error) => {
-                console.log(error)
-            })
-    }
     const {
         data: cars,
         isLoading: isGetLoading,
@@ -111,12 +44,12 @@ const CarsList = () => {
     function actionEmitter(type, valueToEmit) {
         switch (type) {
             case 'modifica':
-                return console.log(valueToEmit)
-            // return setPostData(valueToEmit)
+                return navigate('/cars/form/'+ valueToEmit.id)
             case 'elimina':
-                return (deleteCar)
+                deleteCar(valueToEmit.id)
+                return alert('Car deleted')
             case 'nuovo':
-                return console.log('nuovo elemento')
+                return navigate('/cars/form')
             default:
                 return console.log('actions clicked', valueToEmit)
         }
@@ -142,64 +75,6 @@ const CarsList = () => {
             </div>
         )
     }
-    return (
-        <div className="row">
-            <div className="col-md-4 offset-md-*">
-                <form onSubmit={onSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">
-                            <strong>Enter Title</strong>
-                        </label>
-                        <input
-                            value={inputField.licensePlate}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.manufacturer}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.model}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                        <input
-                            value={inputField.type}
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={inputsHandler}
-                        />
-                    </div>
-                    <button className="btn btn-danger me-2" type="submit">
-                        Submit
-                    </button>
-                    <button
-                        onClick={onEditData}
-                        className="btn btn-primary"
-                        type="button"
-                    >
-                        Update
-                    </button>
-                </form>
-            </div>
-            <div className="col-lg-8">
-                <div className="row">{carsContent}</div>
-            </div>
-        </div>
-    )
 }
 
 export default CarsList

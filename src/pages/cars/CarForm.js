@@ -1,11 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {carApi} from "../../services/car.service";
 import Form from '../../components/form/Form'
+import {useNavigate, useParams} from "react-router-dom";
 
 const CarForm = () => {
-
-    const { useAddNewCarMutation, useUpdateCarMutation, } = carApi;
+    const {id} = useParams()
+    const navigate = useNavigate()
+    const { useAddNewCarMutation, useGetCarByIdQuery, useUpdateCarMutation, } = carApi;
     const [addNewCar, response] = useAddNewCarMutation()
+    const [updateCar, updateResponse] = useUpdateCarMutation()
+    const {data: carData, isLoading: isCarDataLoading} = useGetCarByIdQuery(id, {skip: !id});
+    const [carValues, setCarValues] = useState({})
 
     const carQuestions = [
         {
@@ -41,69 +46,51 @@ const CarForm = () => {
         },
         {
             id: 6,
-            qtext: 'headquarters',
+            qtext: 'headquartersName',
             type: 'text'
+        },
+        {
+            id: 7,
+            qtext: 'id',
+            type: 'hidden',
+            hidden: true
         },
     ]
 
-    // const [inputField, setInputField] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     username: '',
-    //     password: ''
-    // })
-    //
-    // const inputsHandler = (e) => {
-    //     setInputField((prevState) => ({
-    //         ...prevState,
-    //         [e.target.name]: e.target.value,
-    //     }))
-    // }
-    //
-    // const [updatePost, {isLoading: isUpdating}] = useUpdateUserMutation()
-    // const setPostData = (data) => {
-    //     setInputField({
-    //         firstName: data.firstName,
-    //         lastName: data.lastName,
-    //         username: data.username,
-    //         password: data.password
-    //     })
-    // }
-    // const onEditData = () => {
-    //     updatePost({
-    //         firstName: inputField.firstName,
-    //         lastName: inputField.lastName,
-    //         username: inputField.username,
-    //         password: inputField.password
-    //     })
-    //     setInputField(() => ({
-    //         firstName: '',
-    //         lastName: '',
-    //         username: '',
-    //         password: ''
-    //     }))
-    // }
-
     const onSubmit = (formData) => {
-        console.log('entered', formData)
-        addNewCar(formData)
-            .unwrap()
-            .then(() => {
-                // setInputField(() => ({
-                //     firstName: '',
-                //     lastName: '',
-                //     username: '',
-                //     password: ''
-                // }))
-            })
-            .then((error) => {
-                console.log(error)
-            })
+        if (id) {
+            console.log(formData)
+            updateCar(formData)
+                .unwrap()
+                .then(() => {
+                    alert('Car updated successfully. Click here to go back to Homepage')
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.error('error', error)
+                })
+        } else {
+            addNewCar(formData)
+                .unwrap()
+                .then(() => {
+                    alert('Car saved. Click here to go back to Homepage')
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
+
+    useEffect(() => {
+        if (carData && !isCarDataLoading) {
+            setCarValues(carData);
+        }
+    }, [carData, isCarDataLoading]);
 
     return (
         <div>
-            <Form questions={carQuestions} onSubmitForm={onSubmit}/>
+            <Form questions={carQuestions} initialValues={carValues} onSubmitForm={onSubmit}/>
         </div>
     )
 }

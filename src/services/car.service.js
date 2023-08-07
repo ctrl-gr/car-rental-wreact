@@ -11,6 +11,18 @@ export const carApi = apiSlice.injectEndpoints({
             }),
             providesTags: ['Car'],
         }),
+        getCarById: build.query({
+            query: (payload) => {
+                const id = payload
+                console.log(payload)
+                return {
+                    url: carUrl + '/get-car-by-id',
+                    method: 'GET',
+                    params: {id}
+                }
+            },
+            providesTags: ['Car'],
+        }),
         addNewCar: build.mutation({
             query: (payload) => ({
                 url: carUrl + '/save',
@@ -22,11 +34,10 @@ export const carApi = apiSlice.injectEndpoints({
         updateCar: build.mutation({
             query: (payload) => {
                 console.log(payload)
-                const {id, ...body} = payload
                 return {
                     url: carUrl + '/edit',
                     method: 'PUT',
-                    body,
+                    body: payload,
                 }
             },
             invalidatesTags: ['Car'],
@@ -44,9 +55,9 @@ export const carApi = apiSlice.injectEndpoints({
         }),
         deleteCar: build.mutation({
             query: (id) => ({
-                url: carUrl + '/delete/${id}',
+                url: carUrl + '/delete',
                 method: 'DELETE',
-                credentials: 'include',
+                params: {id},
             }),
 
             invalidatesTags: ['Car'],
@@ -56,6 +67,7 @@ export const carApi = apiSlice.injectEndpoints({
 })
 
 export const { useGetCarsQuery,
+    useGetCarByIdQuery,
     useGetAvailableCarsQuery,
     useAddNewCarMutation,
     useUpdateCarMutation,

@@ -12,11 +12,13 @@ export const userApi = apiSlice.injectEndpoints({
             providesTags: ['User'],
         }),
         getUserByUsername: build.query({
-            query: (username) => {
-                console.log(username)
+            query: (payload) => {
+                const username = payload
+                console.log(payload)
                 return {
-                    url: userUrl + '/get-user-by-username/`${username}`',
+                    url: userUrl + '/get-user-by-username',
                     method: 'GET',
+                    params: {username}
                 }
             },
             providesTags: ['User'],
@@ -30,22 +32,24 @@ export const userApi = apiSlice.injectEndpoints({
             invalidatesTags: ['User'],
         }),
         updateUser: build.mutation({
-            query: (payload) => {
-                console.log(payload)
-                const {id, ...body} = payload
+            query: ({username, formData}) => {
+                console.log({username, formData})
                 return {
-                    url: userUrl + '/edit/${id}',
+                    url: userUrl + '/edit',
                     method: 'PUT',
-                    body,
+                    params: {username},
+                    body: formData
                 }
             },
             invalidatesTags: ['User'],
         }),
         deleteUser: build.mutation({
-            query: (id) => ({
-                url: userUrl + '/delete/${id}',
+            query: (id) => (
+                console.log(id),
+                {
+                url: userUrl + '/delete',
                 method: 'DELETE',
-                credentials: 'include',
+                params: {id}
             }),
 
             invalidatesTags: ['User'],

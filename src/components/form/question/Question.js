@@ -1,7 +1,7 @@
-import React, {forwardRef, useImperativeHandle, useState} from 'react'
+import React from 'react'
 import styles from './Question.module.css'
 
-const Question = ({qtext, type, value, onInputChange}) => {
+const Question = ({qtext, type, value, onInputChange, hidden}) => {
 
 
     const formatQuestionText = (text) => {
@@ -23,8 +23,18 @@ const Question = ({qtext, type, value, onInputChange}) => {
 
 
     return <div className={styles.question}>
-        <label className={styles.label} id={qtext}>{formattedQText}</label>
-        <input className={styles.input} id={qtext} type={type} value={value} onChange={handleInputChange}/>
+        <label className={`${styles.label} ${hidden ? styles.hiddenLabel : ''}`} id={qtext}>{formattedQText}</label>
+        {hidden ? (
+            <input type="hidden" id={qtext} value={value} onChange={handleInputChange} />
+        ) : (
+            <input
+                className={styles.input}
+                id={qtext}
+                type={type}
+                value={value}
+                onChange={handleInputChange}
+            />
+        )}
     </div>
 }
 

@@ -5,7 +5,7 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:8080/api',
         headers: {
-            'Authorization': 'Bearer' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTY5MTE1ODU0OCwiZXhwIjoxNjkxMTc2NTQ4fQ.EKwk_jRkvAYEblyCFCyYvcDw0w7-TVFHqGCRmVHcCJ8',
+            'Authorization': 'Bearer' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTY5MTQxMDQ2OSwiZXhwIjoxNjkxNDI4NDY5fQ.-lZLqMj4ZLBOPApgptqDqaxPwLF6R64kNqwQsa94NP0',
             'Content-type': 'application/json; charset=UTF-8'
         }
     }),

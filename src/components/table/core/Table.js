@@ -25,6 +25,21 @@ const Table = ({headers, data, actions, handleAction}) => {
     }, [currentPage, pageSize, sortedData, showAll]);
 
 
+    const approveRejectActions = [
+        {
+            type: 'approva',
+            actionOnTop: false,
+            cssClass: '',
+        },
+        {
+            type: 'rifiuta',
+            actionOnTop: false,
+            cssClass: '',
+        },
+        // Puoi aggiungere altre azioni per 'isApproved' qui, se necessario...
+    ];
+
+
     function actionEmitter(type, valueToEmit) {
         handleAction(type, valueToEmit)
     }
@@ -63,15 +78,39 @@ const Table = ({headers, data, actions, handleAction}) => {
                     <tr key={dataRow.id}>
                         {headers.map((header) => {
                             return header !== 'azioni' ? (
-                                <td key={header}>{dataRow[header]}</td>
+                                <td key={header}>  {header === 'isApproved'
+                                    ? dataRow[header].toString()
+                                    : dataRow[header]}</td>
                             ) : (
                                 <td key={'azioni'}>
                                     <div className={styles.actions}>
-                                        {actions.map((action) => {
-                                            return !action.actionOnTop ? (
-                                                <Button key={action.type} type={action.type} text={action.type} handleClick={() => actionEmitter(action.type, dataRow)} />
-                                            ) : null
-                                        })}
+                                        {dataRow.hasOwnProperty('isApproved') ? (
+                                            <>
+                                                <Button
+                                                    key="approva"
+                                                    type="approva"
+                                                    text="Approva"
+                                                    handleClick={() => actionEmitter('approva', dataRow)}
+                                                />
+                                                <Button
+                                                    key="rifiuta"
+                                                    type="rifiuta"
+                                                    text="Rifiuta"
+                                                    handleClick={() => actionEmitter('rifiuta', dataRow)}
+                                                />
+                                            </>
+                                        ) : (
+                                            actions.map((action) =>
+                                                !action.actionOnTop ? (
+                                                    <Button
+                                                        key={action.type}
+                                                        type={action.type}
+                                                        text={action.type}
+                                                        handleClick={() => actionEmitter(action.type, dataRow)}
+                                                    />
+                                                ) : null
+                                            )
+                                        )}
                                     </div>
                                 </td>
                             )

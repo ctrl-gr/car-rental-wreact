@@ -19,6 +19,7 @@ function AppRouter() {
                     <Route path="/users/form/:username" element={<UserForm />}/>
                     <Route path="/cars/list" element={<CarsList />}/>
                     <Route path="/cars/form" element={<CarForm />}/>
+                    <Route path="/cars/form/:id" element={<CarForm />}/>
                     <Route path="/bookings/list" element={<BookingsList />}/>
                     <Route path="/bookings/form" element={<BookingForm />}/>
                 </Routes>

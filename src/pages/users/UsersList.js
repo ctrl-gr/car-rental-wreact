@@ -45,11 +45,11 @@ const UsersList = () => {
             case 'modifica':
                 navigate('/users/form/'+ valueToEmit.username)
                 return console.log(valueToEmit)
-                // return setPostData(valueToEmit)
             case 'elimina':
-                return (deleteUser)
+                deleteUser(valueToEmit.id)
+                return alert('User deleted')
             case 'nuovo':
-                return console.log('nuovo elemento')
+                return navigate('/users/form')
             default:
                 return console.log('actions clicked', valueToEmit)
         }

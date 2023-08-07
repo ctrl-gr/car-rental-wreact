@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from '../../components/form/Form'
 import {carApi} from "../../services/car.service";
 import Table from "../../components/table/core/Table";
@@ -13,6 +13,7 @@ const BookingForm = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [isSubmitted, setIsSubmitted] = useState(false)
+    const [bookingValues, setBookingValues] = useState({})
 
     const {
         data: availableCars,
@@ -75,6 +76,12 @@ const BookingForm = () => {
     }
 
 
+    // useEffect(() => {
+    //     if (bookingsData && !isBookingsLoading) {
+    //         setBookingsValues(bookingsData);
+    //     }
+    // }, [bookingsData, areBookingsLoading]);
+
       let availableCarsContent
 
       if (isGetLoading) {
@@ -103,7 +110,7 @@ const BookingForm = () => {
     return (
         <>
             <div>
-                <Form questions={bookingQuestions} onSubmitForm={onSubmit}/>
+                <Form questions={bookingQuestions} initialValues={bookingValues} onSubmitForm={onSubmit}/>
                 {availableCarsContent}
             </div>
         </>

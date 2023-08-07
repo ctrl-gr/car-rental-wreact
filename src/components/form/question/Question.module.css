@@ -13,5 +13,8 @@
 }
 .question {
   display: flex;
+}
 
+.hiddenLabel {
+    display: none;
 }

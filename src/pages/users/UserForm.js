@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { userApi} from "../../services/user.service";
 import Form from '../../components/form/Form'
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const UserForm = () => {
     const {username} = useParams()
-    console.log(username)
+    const navigate = useNavigate()
     const {useAddNewUserMutation, useGetUserByUsernameQuery, useUpdateUserMutation,} = userApi;
     const [addNewUser, response] = useAddNewUserMutation()
-    const {data: userData, isLoading: isUserDataLoading} = useGetUserByUsernameQuery(username);
-    console.log(userData)
+    const [updateUser, updateResponse] = useUpdateUserMutation()
+    const {data: userData, isLoading: isUserDataLoading} = useGetUserByUsernameQuery(username, {skip: !username});
+    const [userValues, setUserValues] = useState({})
 
     const userQuestions = [
         {
@@ -42,28 +43,37 @@ const UserForm = () => {
 
     const onSubmit = (formData) => {
         if (username) {
-            console.log('edit')
+            updateUser({username, formData})
+                .unwrap()
+                .then(() => {
+                    alert('User updated successfully. Click here to go back to Homepage')
+                    navigate('/')
+                })
+                .catch((error) => {
+                    console.error('error', error)
+                })
         } else {
-            console.log('entered', formData)
             addNewUser(formData)
                 .unwrap()
                 .then(() => {
-                    // setInputField(() => ({
-                    //     firstName: '',
-                    //     lastName: '',
-                    //     username: '',
-                    //     password: ''
-                    // }))
+                    alert('User saved. Click here to go back to Homepage')
+                    navigate('/')
                 })
-                .then((error) => {
+                .catch((error) => {
                     console.log(error)
                 })
         }
     }
 
+    useEffect(() => {
+        if (userData && !isUserDataLoading) {
+            setUserValues(userData);
+        }
+    }, [userData, isUserDataLoading]);
+
     return (
         <div>
-            <Form questions={userQuestions} onSubmitForm={onSubmit}/>
+            <Form questions={userQuestions} initialValues={userValues} onSubmitForm={onSubmit}/>
         </div>
     )
 }

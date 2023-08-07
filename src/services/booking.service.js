@@ -23,13 +23,13 @@ export const bookingApi = apiSlice.injectEndpoints({
         approveBooking: build.mutation({
             query: (payload) => {
                 console.log(payload)
-                const {id, ...body} = payload
                 return {
                     url: bookingUrl + '/approve',
                     method: 'PUT',
-                    body,
+                    body: payload,
                 }
             },
+            refetchQueries: [{queryKey: ['getBookings']}],
             invalidatesTags: ['Booking'],
         }),
         deleteBooking: build.mutation({
