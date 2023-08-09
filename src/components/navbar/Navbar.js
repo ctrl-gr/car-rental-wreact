@@ -9,7 +9,7 @@ const Navbar = () => {
             <nav>
                 <ul className={styles.navbarList}>
                     <li>
-                        <Link to="/">Homepage</Link>
+                        <Link to="/homepage">Homepage</Link>
                     </li>
                     <li className={styles.submenu}>
                         User Area
